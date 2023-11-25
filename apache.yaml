@@ -1,0 +1,30 @@
+---
+- name: Apache installation for dynamic ubuntu servers
+  hosts: all
+  become: yes
+  tasks:
+   - name: Update Ubuntu OS on dynamic inventory servers
+     apt:
+       update_cache: yes
+
+   - name: Upgrade all packages on dynamic inventory servers
+     apt:
+       upgrade: dist
+       autoremove: yes
+       autoclean: yes
+
+   - name: installing apache on dynamic inventory servers
+     apt:
+       name: apache2
+       state: latest
+
+   - name: index.html
+     copy:
+       content: "<h1>Hello Ansible dynamic inventory</h1>"
+       dest: /var/www/html/index.html
+
+   - name: restart apache2 on dynamic inventory servers
+     service:
+       name: apache2
+       state: restarted
+       enabled: yes
