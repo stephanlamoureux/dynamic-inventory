@@ -47,7 +47,7 @@ output "public_ip2" {
 resource "aws_security_group" "my_security_group" {
   name_prefix = "my-sg-"
 
-  # Fully public inbound rules for SSH, HTTP, and HTTPS.
+  # Fully public inbound rules for SSH, HTTP, MySQL, and HTTPS.
   ingress {
     from_port   = 22
     to_port     = 22
@@ -64,6 +64,13 @@ resource "aws_security_group" "my_security_group" {
     description = "http"
   }
 
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "mysql"
+  }
   ingress {
     from_port   = 443
     to_port     = 443
